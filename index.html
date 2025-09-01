@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>Smart Range Jones Pro</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root{--bg-primary:#0a0e1a;--bg-secondary:#1a1f35;--bg-card:#242b4a;--bg-accent:#2d3654;--text-primary:#ffffff;--text-secondary:#a0a9c0;--text-muted:#6b7280;--strong-buy:#00ff88;--buy:#26d0ce;--neutral:#64748b;--sell:#ff6b6b;--strong-sell:#ff4757;--border:#374151;--shadow:0 8px 32px rgba(0,0,0,0.3);--glow:0 0 20px rgba(0,255,136,0.3);--gradient-buy:linear-gradient(135deg,#00ff88,#26d0ce);--gradient-sell:linear-gradient(135deg,#ff6b6b,#ff4757);--gradient-neutral:linear-gradient(135deg,#64748b,#475569)}*{margin:0;padding:0;box-sizing:border-box;-webkit-touch-callout:none;-webkit-user-select:none;-khtml-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}body{font-family:'Inter',sans-serif;background:var(--bg-primary);color:var(--text-primary);overflow-x:hidden}.container{max-width:1400px;margin:0 auto;padding:20px}.header{text-align:center;margin-bottom:40px}.title{font-size:4rem;font-weight:900;background:var(--gradient-buy);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:15px;text-shadow:0 0 40px rgba(0,255,136,0.6);letter-spacing:-2px}.subtitle{font-size:1.2rem;color:var(--text-secondary);font-weight:500;margin-bottom:20px}.creator-info{font-size:2.5rem;font-weight:800;color:var(--text-primary);margin-bottom:25px;background:var(--gradient-buy);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}.social-links{display:flex;justify-content:center;gap:20px;margin-bottom:30px}.social-link{display:flex;flex-direction:column;align-items:center;text-decoration:none;color:var(--text-secondary);transition:all 0.3s ease;padding:10px;border-radius:10px;border:1px solid var(--border)}.social-link:hover{color:var(--strong-buy);transform:translateY(-2px);box-shadow:0 5px 15px rgba(0,255,136,0.2)}.social-link i{font-size:1.3rem;margin-bottom:5px}.social-link span{font-size:0.75rem;font-weight:500}.control-panel{background:var(--bg-card);border-radius:20px;padding:25px;margin-bottom:30px;border:1px solid var(--border)}.control-row{display:flex;gap:20px;margin-bottom:20px;flex-wrap:wrap;align-items:center}.control-group{display:flex;gap:10px;align-items:center}.control-group label{font-weight:600;color:var(--text-secondary);white-space:nowrap}.btn-group{display:flex;gap:8px}.btn{padding:10px 18px;border:2px solid var(--border);background:transparent;color:var(--text-secondary);border-radius:10px;cursor:pointer;font-weight:600;font-size:0.9rem;transition:all 0.3s ease}.btn.active{background:var(--gradient-buy);border-color:var(--strong-buy);color:white;box-shadow:var(--glow)}.refresh-btn-main{background:var(--gradient-buy);border:none;color:white;padding:12px 20px;border-radius:10px;cursor:pointer;font-weight:700;font-size:0.9rem;transition:all 0.3s ease;margin-left:20px}.refresh-btn-main:hover{transform:translateY(-2px);box-shadow:0 5px 15px rgba(0,255,136,0.3)}.search-container{position:relative;flex:1;min-width:300px}.search-input{width:100%;padding:12px 45px 12px 15px;background:var(--bg-accent);border:2px solid var(--border);border-radius:10px;color:var(--text-primary);font-size:1rem;outline:none;transition:border-color 0.3s ease}.search-input:focus{border-color:var(--strong-buy)}.search-icon{position:absolute;right:15px;top:50%;transform:translateY(-50%);color:var(--text-muted);font-size:1.1rem}.autocomplete-list{position:absolute;top:100%;left:0;right:0;background:var(--bg-card);border:1px solid var(--border);border-top:none;border-radius:0 0 10px 10px;max-height:200px;overflow-y:auto;z-index:1000;display:none}.autocomplete-item{padding:12px 15px;cursor:pointer;border-bottom:1px solid var(--border);transition:background-color 0.2s ease;display:flex;justify-content:space-between;align-items:center}.autocomplete-item:hover,.autocomplete-item.selected{background:var(--bg-accent)}.autocomplete-item:last-child{border-bottom:none}.coin-symbol-auto{color:var(--text-muted);font-size:0.9rem}.searched-coin-section{background:var(--bg-card);border-radius:20px;padding:25px;margin-bottom:30px;border:2px solid var(--strong-buy);box-shadow:0 0 30px rgba(0,255,136,0.2);display:none}.searched-coin-title{font-size:1.5rem;font-weight:700;color:var(--strong-buy);margin-bottom:20px;text-align:center;display:flex;align-items:center;justify-content:center;gap:10px}.searched-coin-card{background:var(--bg-accent);border-radius:16px;padding:30px;border:1px solid var(--border);position:relative;overflow:hidden}.realtime-indicator{position:absolute;top:15px;right:15px;width:12px;height:12px;background:var(--strong-buy);border-radius:50%;animation:blink 2s infinite}@keyframes blink{0%,50%{opacity:1}51%,100%{opacity:0.3}}.close-search-btn{background:var(--sell);color:white;border:none;border-radius:50%;width:30px;height:30px;cursor:pointer;font-size:1rem;margin-left:15px;transition:background 0.3s ease}.close-search-btn:hover{background:var(--strong-sell)}.status-bar{background:var(--bg-card);border-radius:15px;padding:20px;margin-bottom:30px;border:1px solid var(--border);display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;text-align:center}.status-item h4{color:var(--text-secondary);margin-bottom:10px;font-size:0.9rem}.status-value{font-size:1.3rem;font-weight:700;margin-bottom:5px}.status-desc{font-size:0.8rem;color:var(--text-muted)}.coins-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(350px,1fr));gap:20px;margin-bottom:40px;min-height:400px}.coin-card{background:var(--bg-card);border-radius:16px;padding:24px;border:1px solid var(--border);transition:all 0.3s ease;position:relative;overflow:hidden;opacity:0;transform:translateY(20px);animation:slideIn 0.5s ease forwards}@keyframes slideIn{to{opacity:1;transform:translateY(0)}}.coin-card.loading{opacity:0.7}.coin-card:hover{transform:translateY(-5px);box-shadow:0 12px 40px rgba(0,0,0,0.4)}.loading-placeholder{background:var(--bg-card);border-radius:16px;padding:24px;border:1px solid var(--border);display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:350px;animation:pulse 2s infinite}@keyframes pulse{0%,100%{opacity:0.6}50%{opacity:0.9}}.spinner{width:30px;height:30px;border:3px solid var(--border);border-top:3px solid var(--strong-buy);border-radius:50%;animation:spin 1s linear infinite;margin-bottom:15px}@keyframes spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}.coin-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}.coin-name{font-size:1.2rem;font-weight:700}.coin-symbol{font-size:0.9rem;color:var(--text-muted);margin-left:8px}.price-change{font-weight:700;font-size:1rem}.coin-refresh-btn{position:absolute;top:10px;right:10px;background:var(--bg-accent);border:1px solid var(--border);color:var(--text-secondary);border-radius:6px;width:28px;height:28px;cursor:pointer;font-size:0.8rem;transition:all 0.3s ease;display:flex;align-items:center;justify-content:center}.coin-refresh-btn:hover{background:var(--strong-buy);color:white;transform:rotate(90deg)}.score-section{margin:20px 0}.score-title{font-size:0.9rem;color:var(--text-secondary);margin-bottom:8px;display:flex;justify-content:space-between}.score-bar{height:10px;background:var(--bg-accent);border-radius:5px;overflow:hidden;position:relative}.score-fill{height:100%;border-radius:5px;transition:all 0.6s ease;position:relative}.indicators-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:16px 0}.indicator-mini{background:var(--bg-accent);padding:8px 12px;border-radius:8px;font-size:0.85rem;display:flex;justify-content:space-between;align-items:center}.indicator-mini .name{color:var(--text-muted);font-weight:500}.indicator-mini .value{font-weight:700}.signal-badge{padding:8px 16px;border-radius:25px;font-size:0.9rem;font-weight:700;text-align:center;margin-top:15px;position:relative;overflow:hidden;color:white}.entry-advice{background:var(--bg-accent);border-radius:8px;padding:12px;margin-top:12px;font-size:0.85rem;line-height:1.4}.trading-signal{padding:12px;border-radius:10px;margin-top:12px;text-align:center;font-weight:700;font-size:0.9rem}.buy-signal{background:linear-gradient(135deg,#00ff88,#26d0ce);color:white;animation:buyPulse 2s infinite}.sell-signal{background:linear-gradient(135deg,#ff6b6b,#ff4757);color:white;animation:sellPulse 2s infinite}.hold-signal{background:var(--gradient-neutral);color:white}@keyframes buyPulse{0%,100%{box-shadow:0 0 0 0 rgba(0,255,136,0.7)}50%{box-shadow:0 0 0 10px rgba(0,255,136,0)}}@keyframes sellPulse{0%,100%{box-shadow:0 0 0 0 rgba(255,107,107,0.7)}50%{box-shadow:0 0 0 10px rgba(255,107,107,0)}}.progress-bar{position:fixed;top:0;left:0;height:3px;background:var(--gradient-buy);transition:width 0.3s ease;z-index:1000}.loading-counter{position:fixed;top:20px;right:20px;background:var(--bg-card);padding:10px 15px;border-radius:20px;border:1px solid var(--border);font-size:0.9rem;z-index:1000}.donation-section{background:var(--bg-card);border-radius:20px;padding:30px;margin-top:40px;border:1px solid var(--border);text-align:center}.donation-title{font-size:1.5rem;font-weight:700;color:var(--strong-buy);margin-bottom:15px}.donation-info{font-size:1.2rem;color:var(--text-primary);margin-bottom:10px;padding:15px;background:var(--bg-accent);border-radius:10px;border:1px solid var(--border)}.donation-desc{color:var(--text-muted);font-size:0.9rem}.license-expired{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.9);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:10000;color:var(--text-primary)}.license-expired h1{font-size:3rem;color:var(--strong-sell);margin-bottom:20px}.license-expired p{font-size:1.2rem;margin-bottom:15px}@media (max-width:768px){.control-row{flex-direction:column;align-items:stretch}.social-links{flex-wrap:wrap}.status-bar{grid-template-columns:1fr}.coins-grid{grid-template-columns:1fr}.title{font-size:2.8rem}.creator-info{font-size:2rem}.container{padding:15px}}
+  </style>
+</head>
+<body>
+  <div id="license-check"></div>
+  <div class="progress-bar" id="progress-bar"></div>
+  <div class="loading-counter" id="loading-counter" style="display: none;">
+    분석 중... <span id="counter">0/12</span>
+  </div>
+
+  <div class="container">
+    <header class="header">
+      <h1 class="title">Smart Range Jones</h1>
+      <p class="subtitle">프로페셔널 단타 분석 시스템 | 실시간 업비트 연동</p>
+      <p class="creator-info">제작자: 파밍(서교민)</p>
+      
+      <div class="social-links">
+        <a href="https://mingogogo.tistory.com/" target="_blank" class="social-link">
+          <i class="fas fa-blog"></i>
+          <span>티스토리</span>
+        </a>
+        <a href="https://www.tiktok.com/@jjinbbin" target="_blank" class="social-link">
+          <i class="fab fa-tiktok"></i>
+          <span>틱톡</span>
+        </a>
+        <a href="https://www.youtube.com/@%EC%BD%94%EC%9D%B8%ED%8C%8C%EB%B0%8D/shorts" target="_blank" class="social-link">
+          <i class="fab fa-youtube"></i>
+          <span>유튜브</span>
+        </a>
+        <a href="https://www.instagram.com/coin.ming?igsh=MTNjODI0NzQ3YWo5bg==" target="_blank" class="social-link">
+          <i class="fab fa-instagram"></i>
+          <span>인스타</span>
+        </a>
+        <a href="https://www.threads.com/@minjinehot" target="_blank" class="social-link">
+          <i class="fab fa-threads"></i>
+          <span>쓰레드</span>
+        </a>
+      </div>
+    </header>
+
+    <div class="control-panel">
+      <div class="control-row">
+        <div class="control-group">
+          <label>정렬:</label>
+          <div class="btn-group">
+            <button class="btn active" data-sort="volume" onclick="changeSortType(this)">거래대금</button>
+            <button class="btn" data-sort="change" onclick="changeSortType(this)">상승률</button>
+          </div>
+        </div>
+        
+        <div class="control-group">
+          <label>타임프레임:</label>
+          <div class="btn-group">
+            <button class="btn" data-timeframe="1" onclick="changeTimeframe(this)">1분봉</button>
+            <button class="btn active" data-timeframe="3" onclick="changeTimeframe(this)">3분봉</button>
+            <button class="btn" data-timeframe="15" onclick="changeTimeframe(this)">15분봉</button>
+            <button class="btn" data-timeframe="combined" onclick="changeTimeframe(this)">복합</button>
+          </div>
+        </div>
+        
+        <button class="refresh-btn-main" onclick="refreshAllCoins()">
+          <i class="fas fa-sync-alt"></i> 전체 새로고침
+        </button>
+      </div>
+      
+      <div class="control-row">
+        <div class="search-container">
+          <input type="text" class="search-input" id="coinSearch" placeholder="코인 검색 (예: 비트코인, BTC)" onkeyup="handleSearch(event)" onfocus="showAutocomplete()" onblur="hideAutocomplete()">
+          <i class="fas fa-search search-icon"></i>
+          <div class="autocomplete-list" id="autocomplete-list"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="searched-coin-section" id="searched-coin-section">
+      <div class="searched-coin-title">
+        <i class="fas fa-crosshairs"></i>
+        <span id="searched-coin-name">검색된 코인</span>
+        <button class="close-search-btn" onclick="closeSearchedCoin()">×</button>
+      </div>
+      <div class="searched-coin-card" id="searched-coin-card">
+        <div class="realtime-indicator"></div>
+        <!-- 검색된 코인 내용이 여기에 표시됩니다 -->
+      </div>
+    </div>
+
+    <div class="status-bar" id="status-bar">
+      <div class="status-item">
+        <h4>시스템 상태</h4>
+        <div class="status-value" id="system-status">실행 중</div>
+        <div class="status-desc" id="update-status">순차 업데이트 진행</div>
+      </div>
+      <div class="status-item">
+        <h4>분석 완료</h4>
+        <div class="status-value" id="analysis-count">0/12</div>
+        <div class="status-desc">실시간 분석</div>
+      </div>
+      <div class="status-item">
+        <h4>사용 기한</h4>
+        <div class="status-value" id="license-status">유효</div>
+        <div class="status-desc" id="license-desc">2025년 9월 30일까지</div>
+      </div>
+    </div>
+
+    <div class="coins-grid" id="coins-grid">
+      <!-- 초기 로딩 플레이스홀더 12개 -->
+    </div>
+
+    <div class="donation-section">
+      <div class="donation-title">
+        <i class="fas fa-heart" style="color: var(--strong-buy);"></i>
+        개발 후원
+      </div>
+      <div class="donation-info">
+        💳 케이뱅크 100-165-970266 서교민
+      </div>
+      <div class="donation-desc">
+        지속적인 개발과 서버 운영을 위한 후원에 감사드립니다
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // 라이센스 체크 및 보안
+    (function(){
+      const checkLicense = () => {
+        const now = new Date();
+        const expiry = new Date('2025-09-30T23:59:59');
+        if (now > expiry) {
+          document.body.innerHTML = `
+            <div class="license-expired">
+              <h1><i class="fas fa-lock"></i> 사용 기간 만료</h1>
+              <p>이 프로그램의 사용 기간이 2025년 9월 30일에 만료되었습니다.</p>
+              <p>계속 사용하시려면 개발자에게 문의해주세요.</p>
+              <p style="margin-top: 30px; color: var(--text-muted);">
+                연락처: 파밍(서교민)<br>
+                후원계좌: 케이뱅크 100-165-970266
+              </p>
+            </div>
+          `;
+          return false;
+        }
+        return true;
+      };
+      
+      // 우클릭 방지
+      document.addEventListener('contextmenu', e => e.preventDefault());
+      
+      // 개발자 도구 방지
+      document.addEventListener('keydown', e => {
+        if (e.key === 'F12' || 
+            (e.ctrlKey && e.shiftKey && e.key === 'I') ||
+            (e.ctrlKey && e.shiftKey && e.key === 'J') ||
+            (e.ctrlKey && e.key === 'U')) {
+          e.preventDefault();
+        }
+      });
+      
+      // 드래그 방지
+      document.addEventListener('dragstart', e => e.preventDefault());
+      
+      // 텍스트 선택 방지 강화
+      document.addEventListener('selectstart', e => e.preventDefault());
+      
+      if (!checkLicense()) return;
+      
+      // 메인 애플리케이션 시작
+      setTimeout(initializeApp, 100);
+    })();
+
+    // 암호화된 변수들
+    let _0x4d8a = {
+      sortType: 'volume',
+      timeframe: 3,
+      coins: [],
+      displayCoins: [],
+      analyzedCoins: [],
+      analyzedCount: 0,
+      isAnalyzing: false,
+      searchQuery: '',
+      selectedCoin: null,
+      searchTimer: null,
+      updateQueue: [],
+      currentIndex: 0
+    };
+    
+    const _0x5f2c = ['USDT','USDC','BUSD','DAI','TUSD','USDP','GUSD','USDD'];
+    
+    // 메인 초기화 함수
+    async function initializeApp() {
+      try {
+        console.log('시스템 초기화 시작...');
+        
+        createLoadingPlaceholders();
+        await loadCoinsData();
+        startContinuousAnalysis();
+        
+        console.log('시스템 초기화 완료');
+      } catch (error) {
+        console.error('초기화 실패:', error);
+        showError('시스템 초기화에 실패했습니다.');
+      }
+    }
+
+    // 로딩 플레이스홀더 생성
+    function createLoadingPlaceholders() {
+      const grid = document.getElementById('coins-grid');
+      grid.innerHTML = '';
+      
+      for (let i = 0; i < 12; i++) {
+        const placeholder = document.createElement('div');
+        placeholder.className = 'loading-placeholder';
+        placeholder.id = `placeholder-${i}`;
+        placeholder.innerHTML = `
+          <div class="spinner"></div>
+          <div>코인 ${i + 1} 분석 대기 중...</div>
+        `;
+        grid.appendChild(placeholder);
+      }
+    }
+
+    // 코인 데이터 로드
+    async function loadCoinsData() {
+      try {
+        const response = await fetch('https://api.upbit.com/v1/market/all?isDetails=false');
+        const markets = await response.json();
+        
+        const krwMarkets = markets.filter(m => {
+          const isKRW = m.market.startsWith('KRW-');
+          const symbol = m.market.replace('KRW-', '');
+          return isKRW && !_0x5f2c.includes(symbol);
+        });
+        
+        const tickerResponse = await fetch(`https://api.upbit.com/v1/ticker?markets=${krwMarkets.map(m => m.market).join(',')}`);
+        const tickers = await tickerResponse.json();
+        
+        _0x4d8a.coins = krwMarkets.map(market => {
+          const ticker = tickers.find(t => t.market === market.market);
+          return { ...market, ...ticker };
+        }).filter(coin => coin.trade_price);
+        
+        updateDisplayCoins();
+        console.log(`총 ${_0x4d8a.coins.length}개 코인 로드 완료`);
+        
+      } catch (error) {
+        console.error('코인 데이터 로드 실패:', error);
+        throw error;
+      }
+    }
+
+    // 표시할 코인 업데이트
+    function updateDisplayCoins() {
+      let coins = [..._0x4d8a.coins];
+      
+      if (_0x4d8a.searchQuery) {
+        coins = coins.filter(coin => 
+          coin.korean_name?.toLowerCase().includes(_0x4d8a.searchQuery.toLowerCase()) ||
+          coin.market.replace('KRW-', '').toLowerCase().includes(_0x4d8a.searchQuery.toLowerCase())
+        );
+      }
+      
+      if (_0x4d8a.sortType === 'volume') {
+        coins.sort((a, b) => (b.acc_trade_price_24h || 0) - (a.acc_trade_price_24h || 0));
+      } else {
+        coins.sort((a, b) => (b.signed_change_rate || 0) - (a.signed_change_rate || 0));
+      }
+      
+      _0x4d8a.displayCoins = coins.slice(0, 12);
+      _0x4d8a.updateQueue = [..._0x4d8a.displayCoins];
+      _0x4d8a.currentIndex = 0;
+    }
+
+    // 지속적 순차 분석 시작
+    function startContinuousAnalysis() {
+      if (_0x4d8a.isAnalyzing) return;
+      _0x4d8a.isAnalyzing = true;
+      
+      document.getElementById('loading-counter').style.display = 'block';
+      updateProgress(0);
+      
+      processCoinQueue();
+    }
+
+    // 코인 큐 처리 (순차적 지속 업데이트)
+    async function processCoinQueue() {
+      if (_0x4d8a.updateQueue.length === 0) {
+        // 큐가 비었으면 다시 채우고 계속
+        _0x4d8a.updateQueue = [..._0x4d8a.displayCoins];
+        _0x4d8a.currentIndex = 0;
+        
+        // 5초 후 다음 라운드 시작 (느린 지속 업데이트)
+        setTimeout(() => {
+          if (_0x4d8a.isAnalyzing) processCoinQueue();
+        }, 5000);
+        return;
+      }
+      
+      const coin = _0x4d8a.updateQueue.shift();
+      const index = _0x4d8a.displayCoins.indexOf(coin);
+      
+      if (index !== -1) {
+        try {
+          updatePlaceholder(index, `${coin.korean_name} 분석 중...`);
+          
+          const analysis = await analyzeCoin(coin);
+          
+          if (analysis) {
+            const placeholder = document.getElementById(`placeholder-${index}`);
+            if (placeholder) {
+              placeholder.outerHTML = createCoinCardHTML(coin, analysis, index);
+            }
+            
+            _0x4d8a.analyzedCount++;
+            updateProgress((_0x4d8a.analyzedCount % 12) * 8.33);
+            updateCounter(_0x4d8a.analyzedCount % 12 || 12, 12);
+          }
+          
+        } catch (error) {
+          console.error(`${coin.market} 분석 실패:`, error);
+          updatePlaceholder(index, `분석 실패: ${coin.korean_name}`);
+        }
+      }
+      
+      // 다음 코인으로 (1초 간격)
+      setTimeout(() => {
+        if (_0x4d8a.isAnalyzing) processCoinQueue();
+      }, 1000);
+    }
+
+    // 개별 코인 분석
+    async function analyzeCoin(coin) {
+      try {
+        const timeframes = _0x4d8a.timeframe === 'combined' ? [1, 3, 15] : [_0x4d8a.timeframe];
+        const analyses = {};
+        
+        for (const tf of timeframes) {
+          const candles = await getCandleData(coin.market, tf, 100);
+          if (candles && candles.length >= 20) {
+            analyses[tf] = performTechnicalAnalysis(candles);
+          }
+        }
+        
+        if (Object.keys(analyses).length === 0) return null;
+        
+        let finalScore;
+        if (_0x4d8a.timeframe === 'combined') {
+          finalScore = calculateCombinedScore(analyses);
+        } else {
+          finalScore = analyses[_0x4d8a.timeframe]?.totalScore || 0;
+        }
+        
+        return {
+          coin,
+          score: finalScore,
+          analyses,
+          signal: getSignalFromScore(finalScore),
+          tradingSignal: getTradingSignal(finalScore),
+          timestamp: Date.now()
+        };
+        
+      } catch (error) {
+        console.error(`${coin.market} 분석 실패:`, error);
+        return null;
+      }
+    }
+
+    // 캔들 데이터 가져오기
+    async function getCandleData(market, timeframe, count) {
+      try {
+        const url = `https://api.upbit.com/v1/candles/minutes/${timeframe}?market=${market}&count=${count}`;
+        const response = await fetch(url);
+        
+        if (!response.ok) {
+          throw new Error(`API 호출 실패: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        return data.reverse();
+      } catch (error) {
+        console.error(`캔들 데이터 로드 실패 (${market}):`, error);
+        return null;
+      }
+    }
+
+    // 기술적 분석
+    function performTechnicalAnalysis(candles) {
+      const closes = candles.map(c => c.trade_price);
+      const highs = candles.map(c => c.high_price);
+      const lows = candles.map(c => c.low_price);
+      
+      const rsi = calculateRSI(closes, 14);
+      const cci = calculateCCI(closes, highs, lows, 20);
+      const bb = calculateBollingerBands(closes, 20, 2);
+      const smartRange = calculateSmartRangeSimple(candles);
+      
+      const rsiScore = scoreRSI(rsi);
+      const cciScore = scoreCCI(cci);
+      const bbScore = scoreBollingerBands(closes[closes.length - 1], bb);
+      const smartScore = smartRange;
+      
+      const totalScore = Math.round(
+        rsiScore * 0.2 + 
+        cciScore * 0.2 + 
+        bbScore * 0.25 + 
+        smartScore * 0.35
+      );
+      
+      return {
+        rsi: { value: rsi, score: rsiScore },
+        cci: { value: cci, score: cciScore },
+        bb: { value: bb.percent, score: bbScore },
+        smart: { value: smartScore, score: smartScore },
+        totalScore
+      };
+    }
+
+    // 기술적 지표 계산 함수들
+    function calculateRSI(prices, period = 14) {
+      if (prices.length < period + 1) return 50;
+      let gains = 0, losses = 0;
+      for (let i = 1; i <= period; i++) {
+        const change = prices[i] - prices[i - 1];
+        if (change > 0) gains += change;
+        else losses -= change;
+      }
+      gains /= period;
+      losses /= period;
+      if (losses === 0) return 100;
+      return 100 - (100 / (1 + gains / losses));
+    }
+
+    function calculateCCI(closes, highs, lows, period = 20) {
+      if (closes.length < period) return 0;
+      const typicalPrices = closes.map((c, i) => (highs[i] + lows[i] + c) / 3);
+      const recent = typicalPrices.slice(-period);
+      const sma = recent.reduce((sum, tp) => sum + tp, 0) / period;
+      const meanDeviation = recent.reduce((sum, tp) => sum + Math.abs(tp - sma), 0) / period;
+      if (meanDeviation === 0) return 0;
+      return (typicalPrices[typicalPrices.length - 1] - sma) / (0.015 * meanDeviation);
+    }
+
+    function calculateBollingerBands(prices, period = 20, stdDev = 2) {
+      if (prices.length < period) return { upper: 0, middle: 0, lower: 0, percent: 0.5 };
+      const recent = prices.slice(-period);
+      const sma = recent.reduce((sum, p) => sum + p, 0) / period;
+      const variance = recent.reduce((sum, p) => sum + Math.pow(p - sma, 2), 0) / period;
+      const std = Math.sqrt(variance);
+      const upper = sma + (std * stdDev);
+      const lower = sma - (std * stdDev);
+      const currentPrice = prices[prices.length - 1];
+      return {
+        upper, middle: sma, lower,
+        percent: upper !== lower ? (currentPrice - lower) / (upper - lower) : 0.5
+      };
+    }
+
+    function calculateSmartRangeSimple(candles) {
+      if (candles.length < 20) return 50;
+      const recent = candles.slice(-20);
+      const closes = recent.map(c => c.trade_price);
+      const highs = recent.map(c => c.high_price);
+      const lows = recent.map(c => c.low_price);
+      const currentPrice = closes[closes.length - 1];
+      const highestHigh = Math.max(...highs);
+      const lowestLow = Math.min(...lows);
+      const rangePosition = (currentPrice - lowestLow) / (highestHigh - lowestLow);
+      const volatility = (highestHigh - lowestLow) / currentPrice;
+      const recentTrend = (closes[closes.length - 1] - closes[closes.length - 5]) / closes[closes.length - 5];
+      let score = 50;
+      if (rangePosition <= 0.2) score += 30;
+      else if (rangePosition <= 0.3) score += 20;
+      else if (rangePosition >= 0.8) score -= 30;
+      else if (rangePosition >= 0.7) score -= 20;
+      if (recentTrend > 0.02) score += 15;
+      else if (recentTrend < -0.02) score -= 15;
+      if (volatility > 0.05 && volatility < 0.15) score += 10;
+      return Math.max(0, Math.min(100, score));
+    }
+
+    // 점수 계산 함수들
+    function scoreRSI(rsi) {
+      if (rsi <= 25) return 100;
+      if (rsi <= 35) return 80;
+      if (rsi <= 45) return 60;
+      if (rsi >= 75) return 0;
+      if (rsi >= 65) return 20;
+      if (rsi >= 55) return 40;
+      return 50;
+    }
+
+    function scoreCCI(cci) {
+      if (cci <= -150) return 100;
+      if (cci <= -100) return 80;
+      if (cci <= -50) return 60;
+      if (cci >= 150) return 0;
+      if (cci >= 100) return 20;
+      if (cci >= 50) return 40;
+      return 50;
+    }
+
+    function scoreBollingerBands(price, bb) {
+      const pos = (price - bb.lower) / (bb.upper - bb.lower);
+      if (pos <= 0.15) return 100;
+      if (pos <= 0.25) return 80;
+      if (pos <= 0.35) return 60;
+      if (pos >= 0.85) return 0;
+      if (pos >= 0.75) return 20;
+      if (pos >= 0.65) return 40;
+      return 50;
+    }
+
+    // 신호 시스템
+    function getSignalFromScore(score) {
+      if (score >= 90) return { text: '🚀 극강매수', color: '#00ff00', bg: 'linear-gradient(135deg, #00ff00, #00dd00)' };
+      if (score >= 80) return { text: '🔥 강력매수', color: '#00dd00', bg: 'linear-gradient(135deg, #00dd00, #00bb00)' };
+      if (score >= 70) return { text: '⚡ 매수', color: '#00bb00', bg: 'linear-gradient(135deg, #00bb00, #009900)' };
+      if (score >= 63) return { text: '📈 강매수', color: '#009900', bg: 'linear-gradient(135deg, #009900, #007700)' };
+      if (score >= 57) return { text: '👍 매수우위', color: '#007700', bg: 'linear-gradient(135deg, #007700, #005500)' };
+      if (score >= 52) return { text: '🔍 진입대기', color: '#005500', bg: 'linear-gradient(135deg, #005500, #666666)' };
+      if (score >= 48) return { text: '⚖️ 중립', color: '#666666', bg: 'linear-gradient(135deg, #666666, #555555)' };
+      if (score >= 43) return { text: '📊 관망', color: '#555555', bg: 'linear-gradient(135deg, #555555, #884400)' };
+      if (score >= 37) return { text: '👎 매도우위', color: '#884400', bg: 'linear-gradient(135deg, #884400, #bb6600)' };
+      if (score >= 30) return { text: '📉 약매도', color: '#bb6600', bg: 'linear-gradient(135deg, #bb6600, #dd8800)' };
+      if (score >= 20) return { text: '🔻 매도', color: '#dd8800', bg: 'linear-gradient(135deg, #dd8800, #ff6600)' };
+      if (score >= 10) return { text: '⛔ 강력매도', color: '#ff6600', bg: 'linear-gradient(135deg, #ff6600, #ff4400)' };
+      return { text: '💥 극강매도', color: '#ff0000', bg: 'linear-gradient(135deg, #ff0000, #cc0000)' };
+    }
+
+    // 매수/매도 신호 생성
+    function getTradingSignal(score) {
+      if (score >= 75) return { type: 'buy', text: '🚀 강력 매수 신호!', class: 'buy-signal' };
+      if (score >= 60) return { type: 'buy', text: '📈 매수 진입 고려', class: 'buy-signal' };
+      if (score <= 25) return { type: 'sell', text: '📉 매도 신호 발생!', class: 'sell-signal' };
+      if (score <= 40) return { type: 'sell', text: '⚠️ 매도 고려', class: 'sell-signal' };
+      return { type: 'hold', text: '⚖️ 관망 권장', class: 'hold-signal' };
+    }
+
+    function calculateCombinedScore(analyses) {
+      const scores = Object.entries(analyses).map(([tf, data]) => ({
+        score: data.totalScore,
+        weight: tf === '1' ? 0.5 : tf === '3' ? 0.3 : 0.2
+      }));
+      
+      const total = scores.reduce((sum, item) => sum + (item.score * item.weight), 0);
+      const totalWeight = scores.reduce((sum, item) => sum + item.weight, 0);
+      
+      return Math.round(total / totalWeight);
+    }
+
+    // 코인 카드 HTML 생성
+    function createCoinCardHTML(coin, analysis, index) {
+      const change = coin.signed_change_rate || 0;
+      const changeColor = change > 0 ? 'var(--strong-buy)' : change < 0 ? 'var(--strong-sell)' : 'var(--text-muted)';
+      
+      const tf = _0x4d8a.timeframe === 'combined' ? 3 : _0x4d8a.timeframe;
+      const data = analysis.analyses[tf] || analysis.analyses[Object.keys(analysis.analyses)[0]];
+      
+      return `
+        <div class="coin-card" id="coin-${index}">
+          <button class="coin-refresh-btn" onclick="refreshSingleCoin(${index})" title="개별 새로고침">
+            <i class="fas fa-sync-alt"></i>
+          </button>
+          
+          <div class="coin-header">
+            <div>
+              <span class="coin-name">${coin.korean_name}</span>
+              <span class="coin-symbol">${coin.market.replace('KRW-', '')}</span>
+            </div>
+            <div class="price-change" style="color: ${changeColor};">
+              ${change > 0 ? '+' : ''}${(change * 100).toFixed(2)}%
+            </div>
+          </div>
+          
+          <div class="score-section">
+            <div class="score-title">
+              <span>종합 점수</span>
+              <span style="color: ${analysis.signal.color}; font-weight: 700;">${analysis.score}/100</span>
+            </div>
+            <div class="score-bar">
+              <div class="score-fill" style="width: ${analysis.score}%; background: ${analysis.signal.bg};"></div>
+            </div>
+          </div>
+          
+          <div class="indicators-grid">
+            <div class="indicator-mini">
+              <span class="name">RSI</span>
+              <span class="value" style="color: ${getIndicatorColor(data?.rsi.score)};">${data?.rsi.value?.toFixed(1) || 'N/A'}</span>
+            </div>
+            <div class="indicator-mini">
+              <span class="name">CCI</span>
+              <span class="value" style="color: ${getIndicatorColor(data?.cci.score)};">${data?.cci.value?.toFixed(1) || 'N/A'}</span>
+            </div>
+            <div class="indicator-mini">
+              <span class="name">BB%</span>
+              <span class="value" style="color: ${getIndicatorColor(data?.bb.score)};">${data?.bb.value ? (data.bb.value * 100).toFixed(1) + '%' : 'N/A'}</span>
+            </div>
+            <div class="indicator-mini">
+              <span class="name">스마트</span>
+              <span class="value" style="color: ${getIndicatorColor(data?.smart.score)};">${data?.smart.value?.toFixed(0) || 'N/A'}</span>
+            </div>
+          </div>
+          
+          <div class="signal-badge" style="background: ${analysis.signal.bg};">
+            ${analysis.signal.text}
+          </div>
+          
+          <div class="trading-signal ${analysis.tradingSignal.class}">
+            ${analysis.tradingSignal.text}
+          </div>
+          
+          <div class="entry-advice">
+            <strong>단타 조언:</strong> ${getEntryAdvice(analysis.score)}
+          </div>
+        </div>
+      `;
+    }
+
+    // 검색 기능
+    function handleSearch(event) {
+      const query = event.target.value.trim();
+      
+      if (event.key === 'Enter' && query) {
+        selectCoinFromSearch(query);
+        return;
+      }
+      
+      if (query.length >= 1) {
+        showAutocomplete();
+        updateAutocomplete(query);
+      } else {
+        hideAutocomplete();
+      }
+    }
+
+    function showAutocomplete() {
+      document.getElementById('autocomplete-list').style.display = 'block';
+    }
+
+    function hideAutocomplete() {
+      setTimeout(() => {
+        document.getElementById('autocomplete-list').style.display = 'none';
+      }, 200);
+    }
+
+    function updateAutocomplete(query) {
+      const list = document.getElementById('autocomplete-list');
+      const matches = _0x4d8a.coins.filter(coin => 
+        coin.korean_name?.toLowerCase().includes(query.toLowerCase()) ||
+        coin.market.replace('KRW-', '').toLowerCase().includes(query.toLowerCase())
+      ).slice(0, 5);
+      
+      list.innerHTML = matches.map(coin => `
+        <div class="autocomplete-item" onclick="selectCoinFromAutocomplete('${coin.market}')">
+          <span>${coin.korean_name}</span>
+          <span class="coin-symbol-auto">${coin.market.replace('KRW-', '')}</span>
+        </div>
+      `).join('');
+    }
+
+    function selectCoinFromAutocomplete(market) {
+      const coin = _0x4d8a.coins.find(c => c.market === market);
+      if (coin) {
+        document.getElementById('coinSearch').value = coin.korean_name;
+        hideAutocomplete();
+        selectCoinFromSearch(coin.market);
+      }
+    }
+
+    function selectCoinFromSearch(query) {
+      let coin = _0x4d8a.coins.find(c => 
+        c.market === query || 
+        c.korean_name === query ||
+        c.market.replace('KRW-', '').toLowerCase() === query.toLowerCase()
+      );
+      
+      if (!coin) {
+        coin = _0x4d8a.coins.find(c => 
+          c.korean_name?.toLowerCase().includes(query.toLowerCase()) ||
+          c.market.replace('KRW-', '').toLowerCase().includes(query.toLowerCase())
+        );
+      }
+      
+      if (coin) {
+        _0x4d8a.selectedCoin = coin;
+        showSearchedCoin(coin);
+        startSearchedCoinUpdate();
+      }
+    }
+
+    function showSearchedCoin(coin) {
+      document.getElementById('searched-coin-name').textContent = `${coin.korean_name} (${coin.market.replace('KRW-', '')})`;
+      document.getElementById('searched-coin-section').style.display = 'block';
+      updateSearchedCoinCard();
+    }
+
+    function closeSearchedCoin() {
+      document.getElementById('searched-coin-section').style.display = 'none';
+      if (_0x4d8a.searchTimer) {
+        clearInterval(_0x4d8a.searchTimer);
+        _0x4d8a.searchTimer = null;
+      }
+      _0x4d8a.selectedCoin = null;
+      document.getElementById('coinSearch').value = '';
+    }
+
+    function startSearchedCoinUpdate() {
+      if (_0x4d8a.searchTimer) clearInterval(_0x4d8a.searchTimer);
+      
+      updateSearchedCoinCard();
+      _0x4d8a.searchTimer = setInterval(updateSearchedCoinCard, 2000);
+    }
+
+    async function updateSearchedCoinCard() {
+      if (!_0x4d8a.selectedCoin) return;
+      
+      try {
+        const analysis = await analyzeCoin(_0x4d8a.selectedCoin);
+        if (analysis) {
+          const card = document.getElementById('searched-coin-card');
+          const change = _0x4d8a.selectedCoin.signed_change_rate || 0;
+          const changeColor = change > 0 ? 'var(--strong-buy)' : change < 0 ? 'var(--strong-sell)' : 'var(--text-muted)';
+          
+          const tf = _0x4d8a.timeframe === 'combined' ? 3 : _0x4d8a.timeframe;
+          const data = analysis.analyses[tf] || analysis.analyses[Object.keys(analysis.analyses)[0]];
+          
+          card.innerHTML = `
+            <div class="realtime-indicator"></div>
+            <div class="coin-header">
+              <div>
+                <span class="coin-name">${_0x4d8a.selectedCoin.korean_name}</span>
+                <span class="coin-symbol">${_0x4d8a.selectedCoin.market.replace('KRW-', '')}</span>
+              </div>
+              <div class="price-change" style="color: ${changeColor};">
+                ${change > 0 ? '+' : ''}${(change * 100).toFixed(2)}%
+              </div>
+            </div>
+            
+            <div class="score-section">
+              <div class="score-title">
+                <span>실시간 종합 점수</span>
+                <span style="color: ${analysis.signal.color}; font-weight: 700;">${analysis.score}/100</span>
+              </div>
+              <div class="score-bar">
+                <div class="score-fill" style="width: ${analysis.score}%; background: ${analysis.signal.bg};"></div>
+              </div>
+            </div>
+            
+            <div class="indicators-grid">
+              <div class="indicator-mini">
+                <span class="name">RSI (14)</span>
+                <span class="value" style="color: ${getIndicatorColor(data?.rsi.score)};">${data?.rsi.value?.toFixed(1) || 'N/A'}</span>
+              </div>
+              <div class="indicator-mini">
+                <span class="name">CCI (20)</span>
+                <span class="value" style="color: ${getIndicatorColor(data?.cci.score)};">${data?.cci.value?.toFixed(1) || 'N/A'}</span>
+              </div>
+              <div class="indicator-mini">
+                <span class="name">볼린저밴드</span>
+                <span class="value" style="color: ${getIndicatorColor(data?.bb.score)};">${data?.bb.value ? (data.bb.value * 100).toFixed(1) + '%' : 'N/A'}</span>
+              </div>
+              <div class="indicator-mini">
+                <span class="name">스마트레인지</span>
+                <span class="value" style="color: ${getIndicatorColor(data?.smart.score)};">${data?.smart.value?.toFixed(0) || 'N/A'}</span>
+              </div>
+            </div>
+            
+            <div class="signal-badge" style="background: ${analysis.signal.bg};">
+              ${analysis.signal.text}
+            </div>
+            
+            <div class="trading-signal ${analysis.tradingSignal.class}">
+              ${analysis.tradingSignal.text}
+            </div>
+            
+            <div class="entry-advice">
+              <strong>실시간 단타 조언:</strong> ${getEntryAdvice(analysis.score)}
+              <br><small style="color: var(--text-muted); margin-top: 5px;">
+                마지막 업데이트: ${new Date().toLocaleTimeString('ko-KR')}
+              </small>
+            </div>
+          `;
+        }
+      } catch (error) {
+        console.error('검색된 코인 업데이트 실패:', error);
+      }
+    }
+
+    // 컨트롤 함수들
+    function changeSortType(button) {
+      document.querySelectorAll('[data-sort]').forEach(btn => btn.classList.remove('active'));
+      button.classList.add('active');
+      _0x4d8a.sortType = button.dataset.sort;
+      
+      updateDisplayCoins();
+      createLoadingPlaceholders();
+      startContinuousAnalysis();
+    }
+
+    function changeTimeframe(button) {
+      document.querySelectorAll('[data-timeframe]').forEach(btn => btn.classList.remove('active'));
+      button.classList.add('active');
+      const newTimeframe = button.dataset.timeframe;
+      
+      if (newTimeframe !== _0x4d8a.timeframe) {
+        _0x4d8a.timeframe = newTimeframe === 'combined' ? 'combined' : parseInt(newTimeframe);
+        
+        createLoadingPlaceholders();
+        _0x4d8a.isAnalyzing = false;
+        setTimeout(() => startContinuousAnalysis(), 500);
+      }
+    }
+
+    function refreshAllCoins() {
+      _0x4d8a.isAnalyzing = false;
+      _0x4d8a.analyzedCount = 0;
+      
+      createLoadingPlaceholders();
+      
+      setTimeout(async () => {
+        try {
+          await loadCoinsData();
+          startContinuousAnalysis();
+        } catch (error) {
+          console.error('전체 새로고침 실패:', error);
+        }
+      }, 500);
+    }
+
+    async function refreshSingleCoin(index) {
+      const coin = _0x4d8a.displayCoins[index];
+      if (!coin) return;
+      
+      const card = document.getElementById(`coin-${index}`);
+      if (card) {
+        card.classList.add('loading');
+        
+        try {
+          const analysis = await analyzeCoin(coin);
+          if (analysis) {
+            card.outerHTML = createCoinCardHTML(coin, analysis, index);
+          }
+        } catch (error) {
+          console.error(`개별 새로고침 실패 (${coin.market}):`, error);
+          card.classList.remove('loading');
+        }
+      }
+    }
+
+    // 유틸리티 함수들
+    function getEntryAdvice(score) {
+      if (score >= 80) return '적극적 매수 진입, 손절가 3% 설정 권장';
+      if (score >= 65) return '조건부 매수, 엄격한 손절 관리 필수';
+      if (score >= 55) return '관찰 후 진입 고려, 추가 신호 대기';
+      if (score >= 45) return '중립 구간, 명확한 신호 나올 때까지 대기';
+      if (score >= 30) return '진입 비추천, 관망 권장';
+      return '매도 신호 구간, 보유 시 손절 고려';
+    }
+
+    function getIndicatorColor(score) {
+      if (!score) return 'var(--text-muted)';
+      if (score >= 70) return 'var(--strong-buy)';
+      if (score >= 50) return 'var(--buy)';
+      if (score >= 30) return 'var(--sell)';
+      return 'var(--strong-sell)';
+    }
+
+    function updatePlaceholder(index, text) {
+      const placeholder = document.getElementById(`placeholder-${index}`);
+      if (placeholder) {
+        placeholder.querySelector('div:last-child').textContent = text;
+      }
+    }
+
+    function updateProgress(percent) {
+      document.getElementById('progress-bar').style.width = `${percent}%`;
+    }
+
+    function updateCounter(current, total) {
+      document.getElementById('counter').textContent = `${current}/${total}`;
+    }
+
+    function showError(message) {
+      const grid = document.getElementById('coins-grid');
+      grid.innerHTML = `
+        <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: var(--strong-sell);">
+          <i class="fas fa-exclamation-triangle" style="font-size: 3rem; margin-bottom: 20px;"></i>
+          <div>${message}</div>
+          <button class="btn" onclick="location.reload()" style="margin-top: 20px;">새로고침</button>
+        </div>
+      `;
+    }
+
+    // 콘솔 로그 숨김
+    console.log = console.warn = console.error = () => {};
+    
+    // 추가 보안
+    setInterval(() => {
+      const now = new Date();
+      if (now.getFullYear() === 2025 && now.getMonth() >= 9) {
+        document.body.innerHTML = '<div class="license-expired"><h1>사용 기간 만료</h1></div>';
+      }
+    }, 60000);
+  </script>
+</body>
+</html>
